@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { selectBook } from '../actions/index';
 
 class BookList extends Component {
   renderList() {
@@ -25,4 +27,17 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(BookList);
+// Anything returned from this function will end up as props
+// on the BookList container
+function mapDispatchToProps(dispatch) {
+  // Whenever selectBook is callled, result should be passed to
+  // all our reducers
+  return bindActionCreators(
+    { selectBook: selectBook},
+    dispatch
+  );
+}
+
+// Promote BookList from a component to container
+// Make selectBook dispatch method available as a prop
+export default connect(mapStateToProps, mapDispatchToProps)(BookList);
